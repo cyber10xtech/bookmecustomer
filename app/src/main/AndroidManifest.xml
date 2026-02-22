@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- ── Network ─────────────────────────────────────────────────────────── -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <!-- ── Camera / storage (for file uploads in WebView) ─────────────────── -->
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <!--
+        READ/WRITE_EXTERNAL_STORAGE: deprecated on API 33+.
+        For file picker access on modern Android the system automatically grants
+        temporary URI permission via the file chooser intent, so these are only
+        needed for older devices. They are kept here with a maxSdkVersion guard.
+    -->
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="29" />
+
+    <!-- ── POST_NOTIFICATIONS: required on Android 13+ (API 33) ───────────── -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <application
+        android:allowBackup="true"
+        android:hardwareAccelerated="true"
+        android:largeHeap="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@drawable/logo"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/logo"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Bookme"
+        tools:targetApi="31">
+
+        <!-- Main activity -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!--
+            FCM Messaging Service – was completely missing from the manifest.
+            Without this entry:
+              • onNewToken() is never called → server holds stale FCM tokens
+              • onMessageReceived() is never called → foreground notifications
+                never appear; data-only messages are silently dropped
+        -->
+        <service
+            android:name=".BookmeFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <!--
+            Tell Firebase which channel to use for system-tray notifications
+            when the app is in the background. Must match NOTIFICATION_CHANNEL_ID
+            in MainActivity.
+        -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="bookme_business_channel" />
+
+        <!-- Optional: set a custom notification icon for the system tray -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/logo" />
+
+    </application>
+</manifest>

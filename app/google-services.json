@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "628735846132",
+    "project_id": "bookme-business-4fedc",
+    "storage_bucket": "bookme-business-4fedc.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:628735846132:android:29ddf5593b2844574f20a1",
+        "android_client_info": {
+          "package_name": "com.toyinpinheiro.bookmeapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDS10zIr1Rb6YbtA6jc081CDxQKQ7w1Eo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

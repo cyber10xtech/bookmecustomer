@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    FIXED: The original layout placed the ImageView INSIDE the WebView element.
+    WebView is not a ViewGroup that supports child views – the ImageView was silently
+    ignored by the layout inflater on most devices, meaning the splash logo never
+    actually rendered over the WebView.
+
+    Fixed by using a FrameLayout so views are layered correctly:
+      1. WebView (bottom layer, fills screen)
+      2. ImageView splash logo (middle layer, centred)
+      3. Retry Button (top layer, pinned to bottom)
+-->
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    tools:context=".MainActivity">
+
+    <!-- WebView fills the entire screen -->
+    <WebView
+        android:id="@+id/WebView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+    <!-- Splash / offline logo – centred over everything -->
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:adjustViewBounds="true"
+        android:maxWidth="200dp"
+        android:maxHeight="200dp"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/book_home_img"
+        android:visibility="visible"
+        android:contentDescription="@string/app_name" />
+
+    <!-- Retry button pinned to the bottom -->
+    <Button
+        android:id="@+id/buttonCheck"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="8dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:text="@string/btn_check_connection"
+        android:textColor="@color/white"
+        android:visibility="visible"
+        app:backgroundTint="#000000" />
+
+</FrameLayout>

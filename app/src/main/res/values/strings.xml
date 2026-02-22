@@ -1,0 +1,7 @@
+<resources>
+    <!-- FIXED: was "Bookme Customer" – should be "BookME Business" to match the app label -->
+    <string name="app_name">BookME Business</string>
+
+    <!-- Added: button label extracted to strings.xml (was hardcoded in layout) -->
+    <string name="btn_check_connection">Check Connection</string>
+</resources>
